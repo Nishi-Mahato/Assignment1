@@ -1,0 +1,66 @@
+---
+title: "NASA GISS Surface Temperature Analysis"
+author: "Nishi Mahato"
+date: "2/29/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Temperature Data Analysis
+
+The GISS Surface Temperature Analysis (GISTEMP v4) is an estimate of global surface temperature change. The temerature shows data from year 1880 to 2015.
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+gistTemp2<- read.csv("/Users/rajeshkumarpanigrahi/Downloads/NASA GISS Assignment/NASA-GISTEMP-Data2CSV.csv")
+
+head(gistTemp2[1:10])
+
+gistTemp1<- read.csv("/Users/rajeshkumarpanigrahi/Downloads/NASA GISS Assignment/NASA-GISTEMP-DataCSV.csv")
+
+head(gistTemp1[1:10])
+```
+
+## Data Visualization
+# The below graph shows the global temperature from year 1880 to 2015. 
+
+```{r}
+ggplot(gistTemp2,aes(Year,Glob))+geom_line(aes(color=Glob))+geom_smooth(method="loess")+ggtitle("Global Absolute Temperature")+xlab("Year")+ ylab("Temperature in Farenheit")+scale_y_continuous(breaks = seq(-50, 100, by = 30))+scale_x_continuous(breaks = seq(1880, 2014, by = 10))+scale_color_gradient(low="blue", high="red", name = "avg deg F")
+```
+
+# Observation
+As we can see from the above graph that global temperature has increases significantly.
+
+# The below graph shows the global temperature, northern and southern hemisphere temperature from year 1880 to 2015
+
+```{r}
+ggplot(gistTemp2,aes(x=Year)) + geom_line(aes(y= NHem, col="NHem")) + geom_line(aes(y= SHem, col="SHem")) + geom_line(aes(y= Glob, col="Glob")) + ggtitle("Global Absolute Temperature")+xlab("Year")+ ylab("Temperature in Farenheit")+scale_y_continuous(breaks = seq(-50, 100, by = 30))+scale_x_continuous(breaks = seq(1880, 2014, by = 10)) + scale_color_manual(name="", values = c("Glob"= "blue","NHem" = "red", "SHem"= "green"))
+```
+
+# Observation
+As we can see from the above graph that global temperature, northern and southern hemisphere temperature has increases significantly.
+
+# The below graph shows the tempreature in different longitude of earth. 
+
+```{r}
+g1 <- gistTemp2
+ggplot(g1) +
+geom_boxplot(aes(x="1",y =X64N.90N, color="64N-90N")) +
+geom_boxplot(aes(x="2",y =X44N.64N, color="44N-64N")) +
+geom_boxplot(aes(x="3",y =X24N.44N, color="24N-44N")) +
+geom_boxplot(aes(x="4",y =EQU.24N, color="EQU-24N")) +
+geom_boxplot(aes(x="5",y =X24S.EQU, color="24S-EQU")) +
+geom_boxplot(aes(x="6",y =X44S.24S, color="44S-24S")) +
+geom_boxplot(aes(x="7",y =X64S.44S, color="64S-44S")) +
+geom_boxplot(aes(x="8",y =X90S.64S, color="90S-64S")) +
+ggtitle("Temperature(F) in differnet longitude")+xlab("Longitude")+ ylab("Temperature in Farenheit")
+```
+
+# Observation
+
+From the above graph we can see the mean, maximum and minimum temperature on different longitude.
